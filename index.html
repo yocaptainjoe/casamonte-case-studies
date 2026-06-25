@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Casamonte · Architectural Film — Case Studies</title>
+<style>
+  :root { --line:#ffffff; --muted:#8f8f8f; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color:#f2f2f2;
+    background:linear-gradient(180deg,#151515 0%,#0b0b0b 60%,#050505 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap { max-width:600px; margin:0 auto; }
+
+  header {
+    text-align:center;
+    padding:max(46px,env(safe-area-inset-top)) 22px 30px;
+    position:relative;
+  }
+  header .logo { height:30px; width:auto; opacity:.95; margin-bottom:22px; }
+  header .kicker { font-size:11px; letter-spacing:.42em; text-transform:uppercase; color:#f2f2f2; padding-left:.42em; }
+  header .sub { margin-top:14px; font-size:12px; line-height:1.6; color:var(--muted); letter-spacing:.04em; }
+  header .count { margin-top:18px; font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:#5f5f5f; }
+
+  .panel {
+    padding:30px 18px 40px;
+    border-top:1px solid rgba(255,255,255,.07);
+  }
+  .eyebrow { font-size:9.5px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+  .ptitle { margin-top:8px; font-size:23px; font-weight:600; letter-spacing:.01em; color:#fff; }
+  .psub { margin-top:5px; font-size:11.5px; letter-spacing:.04em; color:#8a8a8a; }
+
+  .frame {
+    position:relative;
+    width:100%;
+    margin:18px 0 0;
+    max-height:74svh;
+    border-radius:4px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 0 0 1px rgba(255,255,255,.10), 0 26px 60px rgba(0,0,0,.6);
+    user-select:none; -webkit-user-select:none;
+    touch-action:none;
+    cursor:ew-resize;
+  }
+  .frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    -webkit-user-drag:none; user-drag:none; pointer-events:none; display:block; }
+  .after-img { clip-path:inset(0 50% 0 0); }
+
+  .tag { position:absolute; top:12px; font-size:9.5px; letter-spacing:.28em; font-weight:500;
+    padding:5px 10px; border-radius:2px; text-transform:uppercase; color:#f2f2f2;
+    background:rgba(0,0,0,.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.16); }
+  .tag.before { left:12px; }
+  .tag.after { right:12px; }
+  .divider { position:absolute; top:0; bottom:0; left:50%; width:1px; margin-left:-.5px;
+    background:var(--line); box-shadow:0 0 0 .5px rgba(0,0,0,.25); }
+  .handle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.92);
+    border:1px solid rgba(255,255,255,.6); box-shadow:0 4px 14px rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center; gap:5px; }
+  .handle::before, .handle::after { content:""; width:0; height:0;
+    border-top:5px solid transparent; border-bottom:5px solid transparent; }
+  .handle::before { border-right:7px solid #111; }
+  .handle::after { border-left:7px solid #111; }
+
+  .savings { margin-top:22px; }
+  .slabel { font-size:9.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); }
+  .samount { margin-top:7px; font-size:42px; font-weight:700; letter-spacing:-.01em; color:#fff; line-height:1;
+    display:flex; align-items:baseline; flex-wrap:wrap; gap:12px; }
+  .samount .spct { font-size:13px; font-weight:500; letter-spacing:.02em; color:#7c7c7c; }
+
+  details.details { margin-top:20px; border-top:1px solid rgba(255,255,255,.08); }
+  details.details summary {
+    list-style:none; cursor:pointer; padding:14px 0 2px;
+    font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:#7c7c7c;
+    display:flex; align-items:center; gap:8px;
+  }
+  details.details summary::-webkit-details-marker { display:none; }
+  details.details summary::after { content:"+"; margin-left:auto; font-size:14px; color:#7c7c7c; }
+  details.details[open] summary::after { content:"–"; }
+  .story { margin-top:10px; font-size:12.5px; line-height:1.65; color:#b6b6b6; letter-spacing:.01em; }
+  .compare { margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .col { border:1px solid rgba(255,255,255,.10); border-radius:3px; padding:12px 12px 13px; background:rgba(255,255,255,.025); }
+  .col .ch { font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; color:#9a9a9a; margin-bottom:9px; }
+  .col.sol .ch { color:#e7e2d9; }
+  .row { display:flex; justify-content:space-between; gap:8px; padding:4px 0; font-size:11px; }
+  .row .k { color:#7c7c7c; }
+  .row .v { color:#ededed; font-weight:600; text-align:right; }
+
+  .scrolldown { margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:#5f5f5f; font-size:9px; letter-spacing:.3em; text-transform:uppercase; animation:bob 1.8s ease-in-out infinite; }
+  .scrolldown .chev { width:8px; height:8px; border-right:1.5px solid #7a7a7a; border-bottom:1.5px solid #7a7a7a; transform:rotate(45deg); }
+  @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
+
+  footer { text-align:center; padding:44px 22px max(50px,env(safe-area-inset-bottom)); border-top:1px solid rgba(255,255,255,.07); }
+  footer .ft { font-size:15px; font-weight:600; color:#fff; }
+  footer .fc { margin-top:12px; font-size:11px; letter-spacing:.12em; color:var(--muted); }
+  @media (prefers-reduced-motion: reduce){ .scrolldown{animation:none;} html{scroll-behavior:auto;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="logo" src="img/logo.jpg" alt="Casamonte">
+    <div class="kicker">Architectural Film · Case Studies</div>
+    <div class="sub">Premium surfaces resurfaced in place — lower cost, faster timelines, minimal downtime.<br>Drag any image to reveal before &amp; after.</div>
+    <div class="count">12 projects · scroll to explore</div>
+    <div class="scrolldown" aria-hidden="true"><span>scroll</span><div class="chev"></div></div>
+  </header>
+
+  <section class="panel">
+    <div class="eyebrow">Case Study 01&nbsp;&nbsp;·&nbsp;&nbsp;Hospitality</div>
+    <h2 class="ptitle">Four Seasons</h2>
+    <div class="psub">Elevator Landing Resurfacing — Three Locations</div>
+    <div class="frame" style="aspect-ratio:0.620">
+      <img class="base" src="img/p01_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p01_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$380,000<span class="spct">63% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">Three Four Seasons properties refreshed a combined 90 elevator landings to a modern gold finish — installed while every hotel stayed fully operational.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$220,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~3 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$600,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1 year</span></div><div class="row"><span class="k">Downtime</span><span class="v">Weeks of outage</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 03&nbsp;&nbsp;·&nbsp;&nbsp;Retail / Brand</div>
+    <h2 class="ptitle">Swarovski</h2>
+    <div class="psub">Casework Resurfacing — Five Locations</div>
+    <div class="frame" style="aspect-ratio:0.749">
+      <img class="base" src="img/p03_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p03_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$600,000<span class="spct">63% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">Casework across five Swarovski stores was resurfaced from white to pink for a brand-recognition campaign — installed overnight with the stores fully functioning.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$350,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">Overnight (~2 wks)</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$950,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~7–8 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Store closures</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 04&nbsp;&nbsp;·&nbsp;&nbsp;Corporate / Commercial</div>
+    <h2 class="ptitle">DHL HQ</h2>
+    <div class="psub">Lobbies, Panels, Columns &amp; Elevators</div>
+    <div class="frame" style="aspect-ratio:0.750">
+      <img class="base" src="img/p04_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p04_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$190,000<span class="spct">60% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">The main lobbies at DHL’s South Florida headquarters — walls, panels, columns, and interior elevators — were modernized in place with no downtime.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$130,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$320,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~6–7 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Months of work</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 05&nbsp;&nbsp;·&nbsp;&nbsp;Corporate / Commercial</div>
+    <h2 class="ptitle">The Home Depot</h2>
+    <div class="psub">Corporate Office · Elevator &amp; Lobby Upgrade</div>
+    <div class="frame" style="aspect-ratio:0.620">
+      <img class="base" src="img/p05_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p05_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$118,000<span class="spct">70% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">A corporate elevator and lobby upgrade delivering a high-end material finish across the office — without disrupting a single workday.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$57,300</span></div><div class="row"><span class="k">Timeline</span><span class="v">2-day install</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$175,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">8–10 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">10–15 days</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 06&nbsp;&nbsp;·&nbsp;&nbsp;Hospitality</div>
+    <h2 class="ptitle">Rosen Shingle Creek</h2>
+    <div class="psub">Guest-Room Door Refresh — 1,400 Doors</div>
+    <div class="frame" style="aspect-ratio:0.623">
+      <img class="base" src="img/p06_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p06_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$1.4M<span class="spct">56% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">A full-property guest-room door refresh executed inside a larger renovation — holding the resort’s brand standard at a fraction of replacement cost, with no rooms taken offline.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">1,400 doors</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$1,800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">Full replacement</span></div><div class="row"><span class="k">Downtime</span><span class="v">Days per unit</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 07&nbsp;&nbsp;·&nbsp;&nbsp;Restaurant / F&amp;B</div>
+    <h2 class="ptitle">Fogo de Chão</h2>
+    <div class="psub">Exterior Column Resurfacing — Fort Lauderdale</div>
+    <div class="frame" style="aspect-ratio:1.333">
+      <img class="base" src="img/p07_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p07_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$85,000<span class="spct">63% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">The exterior columns at Fogo de Chão in Fort Lauderdale were given a sleek, brand-true facelift — with the restaurant open and inviting throughout.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$50,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1 week</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$135,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2–3 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Lost service days</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 08&nbsp;&nbsp;·&nbsp;&nbsp;Hospitality</div>
+    <h2 class="ptitle">Faro Blanco</h2>
+    <div class="psub">Guest-Room Door Refresh — Florida Keys</div>
+    <div class="frame" style="aspect-ratio:0.877">
+      <img class="base" src="img/p08_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p08_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$250,000<span class="spct">56% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">250 guest-room doors at Faro Blanco in the Florida Keys were resurfaced one floor at a time — completed with no loud noise and no disruption to guests.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">250 doors</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$1,800 / door</span></div><div class="row"><span class="k">Timeline</span><span class="v">~4–5 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Floor closures</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 09&nbsp;&nbsp;·&nbsp;&nbsp;Luxury Residential</div>
+    <h2 class="ptitle">Marc Michaels Residence</h2>
+    <div class="psub">Dressing Suite — Jupiter, FL</div>
+    <div class="frame" style="aspect-ratio:0.746">
+      <img class="base" src="img/p09_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p09_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$48,000<span class="spct">60% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">A multimillion-dollar residence in Jupiter, FL modernized with premium surface finishes — delivering the design intent with minimal construction, dust, and downtime.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$31,045</span></div><div class="row"><span class="k">Timeline</span><span class="v">1 week</span></div><div class="row"><span class="k">Downtime</span><span class="v">3 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$80,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">6–8 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">5–10 days</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 11&nbsp;&nbsp;·&nbsp;&nbsp;New Construction</div>
+    <h2 class="ptitle">Saddle Bridge</h2>
+    <div class="psub">Feature Ceilings &amp; Millwork</div>
+    <div class="frame" style="aspect-ratio:0.620">
+      <img class="base" src="img/p11_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p11_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$371,273<span class="spct">57% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">A modern aesthetic delivered as part of a larger development — at well under half the cost of traditional materials and finishes.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$278,727</span></div><div class="row"><span class="k">Timeline</span><span class="v">2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A — in build</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$650,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">4–8 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 13&nbsp;&nbsp;·&nbsp;&nbsp;Elevator Modernization</div>
+    <h2 class="ptitle">NYC Commercial Elevator</h2>
+    <div class="psub">Elevator Cab Modernization</div>
+    <div class="frame" style="aspect-ratio:0.620">
+      <img class="base" src="img/p13_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p13_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$73,000<span class="spct">Back in service in under 2 days</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">A commercial elevator cab modernized in place — returned to service in days, not the weeks a full renovation would have required.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$11,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">2 days</span></div><div class="row"><span class="k">Downtime</span><span class="v">1.5 days</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$40,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">7–10 days</span></div><div class="row"><span class="k">Downtime</span><span class="v">7–10 days</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 15&nbsp;&nbsp;·&nbsp;&nbsp;Private Aviation</div>
+    <h2 class="ptitle">Jet Project</h2>
+    <div class="psub">Cabin Surface Resurfacing</div>
+    <div class="frame" style="aspect-ratio:0.746">
+      <img class="base" src="img/p15_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p15_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$135,000<span class="spct">61% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">Private aircraft cabin surfaces resurfaced to a premium custom finish — a high-end look at a fraction of refit cost and time.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$85,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">Minimal</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$220,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">10–12 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">Extended grounding</span></div></div>
+      </div>
+    </details>
+  </section>
+  <section class="panel">
+    <div class="eyebrow">Case Study 16&nbsp;&nbsp;·&nbsp;&nbsp;New Construction</div>
+    <h2 class="ptitle">Portofino Vineyards</h2>
+    <div class="psub">Clubhouse Ceilings — Naples, FL</div>
+    <div class="frame" style="aspect-ratio:0.750">
+      <img class="base" src="img/p16_before.jpg" alt="before" loading="lazy" decoding="async">
+      <img class="after-img" src="img/p16_after.jpg" alt="after" loading="lazy" decoding="async">
+      <span class="tag before">Before</span>
+      <span class="tag after">After</span>
+      <div class="divider"></div>
+      <div class="handle"></div>
+    </div>
+    <div class="savings">
+      <div class="slabel">Total Saved</div>
+      <div class="samount">$80,000<span class="spct">62% lower cost</span></div>
+    </div>
+    <details class="details">
+      <summary>Project details</summary>
+      <p class="story">Clubhouse ceilings in a new-construction community in Naples, FL finished with a sleek, modern look — delivered on the construction deadline.</p>
+      <div class="compare">
+        <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$50,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1–2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A — in build</span></div></div>
+        <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$130,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1–2 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A</span></div></div>
+      </div>
+    </details>
+  </section>
+
+  <footer>
+    <div class="ft">Let’s run the math on your portfolio.</div>
+    <div class="fc">sales@casamonte.com&nbsp;&nbsp;·&nbsp;&nbsp;casamonte.com</div>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.frame').forEach(function(frame){
+    var afterImg = frame.querySelector('.after-img');
+    var divider  = frame.querySelector('.divider');
+    var handle   = frame.querySelector('.handle');
+    var dragging = false;
+    function setPos(clientX){
+      var r = frame.getBoundingClientRect();
+      var x = clientX - r.left;
+      if(x < 0) x = 0; if(x > r.width) x = r.width;
+      var pct = (x / r.width) * 100;
+      afterImg.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left = pct + '%';
+      handle.style.left  = pct + '%';
+    }
+    if(window.PointerEvent){
+      frame.addEventListener('pointerdown', function(e){ dragging = true; setPos(e.clientX); });
+      window.addEventListener('pointermove', function(e){ if(dragging) setPos(e.clientX); });
+      window.addEventListener('pointerup',   function(){ dragging = false; });
+      window.addEventListener('pointercancel', function(){ dragging = false; });
+    } else {
+      function gx(e){ return e.touches && e.touches.length ? e.touches[0].clientX : e.clientX; }
+      frame.addEventListener('mousedown', function(e){ dragging = true; setPos(gx(e)); e.preventDefault(); });
+      window.addEventListener('mousemove', function(e){ if(dragging) setPos(gx(e)); });
+      window.addEventListener('mouseup',   function(){ dragging = false; });
+      frame.addEventListener('touchstart', function(e){ dragging = true; setPos(gx(e)); e.preventDefault(); }, {passive:false});
+      frame.addEventListener('touchmove',  function(e){ if(dragging){ setPos(gx(e)); e.preventDefault(); } }, {passive:false});
+      frame.addEventListener('touchend',   function(){ dragging = false; });
+    }
+  });
+</script>
+</body>
+</html>
