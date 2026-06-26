@@ -8,86 +8,82 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#1c1c1c; --soft:#5d5a55; --muted:#a09a92; --taupe:#8a7f6f; --hair:rgba(0,0,0,.08); }
+  :root { --ink:#1f1f1f; --soft:#5d5d5d; --muted:#9a9a9a; --hair:rgba(0,0,0,.08); }
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html { scroll-behavior:smooth; }
-  body { font-family:'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  body { font-family:'Poppins',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     font-weight:400; color:var(--ink); background:#ffffff; overflow-x:hidden; -webkit-text-size-adjust:100%;
     -webkit-font-smoothing:antialiased; }
   .wrap { max-width:600px; margin:0 auto; }
 
   header { text-align:center; padding:max(48px,env(safe-area-inset-top)) 24px 30px; }
-  header .logo { height:30px; width:auto; margin-bottom:22px; }
-  header .kicker { font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--taupe); font-weight:500; padding-left:.34em; }
-  header .sub { margin-top:14px; font-size:13px; line-height:1.7; color:var(--soft); font-weight:300; }
+  header .logo { height:34px; width:auto; margin-bottom:22px; }
+  header .kicker { font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--soft); font-weight:500; padding-left:.34em; }
+  header .sub { margin-top:14px; font-size:13px; line-height:1.7; color:var(--muted); font-weight:300; }
   header .count { margin-top:18px; font-size:9.5px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); font-weight:500; }
   header .scrolldown { margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:7px;
     color:var(--muted); font-size:9px; letter-spacing:.28em; text-transform:uppercase; animation:bob 1.8s ease-in-out infinite; }
   header .scrolldown .chev { width:8px; height:8px; border-right:1.5px solid var(--muted); border-bottom:1.5px solid var(--muted); transform:rotate(45deg); }
 
   .panel { padding:34px 20px 44px; border-top:1px solid var(--hair); }
-  .eyebrow { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--taupe); font-weight:500; }
-  .ptitle { margin-top:9px; font-size:25px; font-weight:600; letter-spacing:.005em; color:var(--ink); }
-  .psub { margin-top:5px; font-size:12.5px; color:var(--muted); font-weight:300; }
+  .eyebrow { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); font-weight:500; }
+  .ptitle { margin-top:9px; font-size:24px; font-weight:600; line-height:1.18; color:var(--ink); }
+  .psub { margin-top:6px; font-size:12.5px; color:var(--muted); font-weight:300; }
 
-  /* ---- carousel ---- */
+  /* carousel */
   .carousel { position:relative; width:100%; margin-top:20px; max-height:74svh;
-    border-radius:6px; overflow:hidden; background:#f4f3f1;
-    box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 0 0 1px rgba(0,0,0,.05), 0 14px 36px rgba(0,0,0,.12); }
+    border-radius:6px; overflow:hidden; background:#f1f1f1;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 0 0 1px rgba(0,0,0,.05), 0 12px 32px rgba(0,0,0,.11); }
   .track { display:flex; width:100%; height:100%; overflow-x:auto; overflow-y:hidden;
     scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
   .track::-webkit-scrollbar { display:none; }
-  .cslide { flex:0 0 100%; width:100%; height:100%; scroll-snap-align:center; position:relative; }
+  .cslide { flex:0 0 100%; width:100%; height:100%; scroll-snap-align:center; scroll-snap-stop:always; position:relative; }
   .cslide .full { width:100%; height:100%; object-fit:cover; display:block; -webkit-user-drag:none; user-drag:none; }
 
   .frame { position:absolute; inset:0; user-select:none; -webkit-user-select:none; cursor:ew-resize; }
   .frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     -webkit-user-drag:none; user-drag:none; pointer-events:none; display:block; }
-  .after-img { clip-path:inset(0 50% 0 0); }
-  .tag { position:absolute; top:13px; font-size:9.5px; letter-spacing:.22em; font-weight:500;
+  .after-img { clip-path:inset(0 0 0 50%); }            /* AFTER on the right */
+  .tag { position:absolute; top:13px; font-size:9.5px; letter-spacing:.2em; font-weight:500;
     padding:5px 11px; border-radius:999px; text-transform:uppercase; color:#fff;
     background:rgba(20,20,20,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     border:1px solid rgba(255,255,255,.18); pointer-events:none; }
   .tag.before { left:13px; } .tag.after { right:13px; }
   .bar { position:absolute; top:0; bottom:0; left:50%; width:46px; transform:translateX(-23px);
     touch-action:none; cursor:ew-resize; display:flex; align-items:center; justify-content:center; }
-  .line { position:absolute; top:0; bottom:0; left:50%; width:2px; margin-left:-1px;
-    background:#fff; box-shadow:0 0 6px rgba(0,0,0,.35); }
+  .line { position:absolute; top:0; bottom:0; left:50%; width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 6px rgba(0,0,0,.35); }
   .handle { position:relative; width:42px; height:42px; border-radius:50%; background:#fff;
     box-shadow:0 3px 12px rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; gap:5px; }
-  .handle::before, .handle::after { content:""; width:0; height:0;
-    border-top:5px solid transparent; border-bottom:5px solid transparent; }
+  .handle::before, .handle::after { content:""; width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; }
   .handle::before { border-right:7px solid #6a6a6a; } .handle::after { border-left:7px solid #6a6a6a; }
-  .swipehint { position:absolute; right:13px; bottom:13px; font-size:9px; letter-spacing:.18em;
-    text-transform:uppercase; color:#fff; padding:5px 11px; border-radius:999px;
-    background:rgba(20,20,20,.5); border:1px solid rgba(255,255,255,.18);
-    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); pointer-events:none;
-    animation:nudge 2.2s ease-in-out infinite; }
+  .swipehint { position:absolute; right:13px; bottom:13px; font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+    color:#fff; padding:5px 11px; border-radius:999px; background:rgba(20,20,20,.5); border:1px solid rgba(255,255,255,.18);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); pointer-events:none; animation:nudge 2.2s ease-in-out infinite; }
   @keyframes nudge { 0%,100%{transform:translateX(0);opacity:.92;} 50%{transform:translateX(4px);opacity:1;} }
-
-  .cslide.ph { background:#f1efec; display:flex; align-items:center; justify-content:center; }
-  .phbox { display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px;
-    padding:30px; border:1px dashed rgba(0,0,0,.16); border-radius:6px; width:72%; }
-  .phicon { width:40px; height:40px; color:#b3aca2; } .phicon svg { width:100%; height:100%; }
-  .pht { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8a847b; font-weight:500; }
-  .phs { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:#aaa399; }
 
   .dots { display:flex; justify-content:center; gap:7px; margin-top:14px; }
   .dot { width:6px; height:6px; border-radius:999px; background:rgba(0,0,0,.18); transition:all .25s; }
   .dot.active { width:18px; background:rgba(0,0,0,.55); }
 
-  /* ---- simplified info ---- */
-  .savings { margin-top:26px; }
+  /* scope emphasis */
+  .scope { margin-top:18px; background:#efefef; border:1px solid rgba(0,0,0,.06); border-radius:6px;
+    padding:12px 15px; font-size:13.5px; font-weight:500; color:var(--ink); line-height:1.45; }
+  .scope .sk { display:block; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:4px; }
+
+  /* savings */
+  .savings { margin-top:20px; }
   .slabel { font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); font-weight:500; }
   .samount { margin-top:6px; font-size:40px; font-weight:600; letter-spacing:-.01em; color:var(--ink); line-height:1.05;
     display:flex; align-items:baseline; flex-wrap:wrap; gap:11px; }
-  .samount .spct { font-size:14px; font-weight:500; color:var(--taupe); letter-spacing:.01em; }
-  .story { margin-top:16px; font-size:14px; line-height:1.7; color:var(--soft); font-weight:300; }
-  .compare { margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .col { border:1px solid var(--hair); border-radius:8px; padding:15px 15px 16px; background:#faf9f6; }
-  .col.sol { background:#f3efe6; }
-  .col .ch { font-size:9px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:11px; }
-  .col.sol .ch { color:var(--taupe); }
+  .samount .spct { font-size:13px; font-weight:500; color:#8f8f8f; }
+  .ssub { margin-top:10px; font-size:12px; color:var(--muted); font-weight:300; }
+
+  /* comparison (gray, de-yellowed) */
+  .compare { margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .col { border:1px solid rgba(0,0,0,.07); border-radius:8px; padding:15px 15px 16px; background:#f4f4f4; }
+  .col.sol { background:#e9e9e9; }
+  .col .ch { font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#8c8c8c; font-weight:600; margin-bottom:11px; }
+  .col.sol .ch { color:#595959; }
   .row { display:flex; justify-content:space-between; gap:10px; padding:5px 0; font-size:11.5px; }
   .row .k { color:var(--muted); font-weight:300; }
   .row .v { color:var(--ink); font-weight:500; text-align:right; }
@@ -105,8 +101,8 @@
   <header>
     <img class="logo" src="img/logo.jpg" alt="Casamonte">
     <div class="kicker">Architectural Film · Case Studies</div>
-    <div class="sub">Premium surfaces resurfaced in place — lower cost, faster timelines, minimal downtime.<br>Drag the handle to reveal before &amp; after · swipe each photo for more.</div>
-    <div class="count">14 projects · scroll to explore</div>
+    <div class="sub">Premium surfaces resurfaced in place — lower cost, faster timelines, minimal downtime.<br>Drag the handle to reveal before &amp; after · swipe photos for more.</div>
+    <div class="count">13 projects · scroll to explore</div>
     <div class="scrolldown" aria-hidden="true"><span>scroll</span><div class="chev"></div></div>
   </header>
 
@@ -123,25 +119,26 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>Across three Four Seasons properties</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$380,000<span class="spct">63% less</span></div>
+      <div class="samount">$380,000<span class="spct">63% lower cost</span></div>
+      <div class="ssub">~$510K projected 5-yr savings</div>
     </div>
-    <p class="story">Three Four Seasons properties refreshed a combined 90 elevator landings to a modern gold finish — installed while every hotel stayed fully operational.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$220,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~3 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$600,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1 year</span></div><div class="row"><span class="k">Downtime</span><span class="v">Weeks of outage</span></div></div>
     </div>
   </section>
   <section class="panel">
-    <div class="eyebrow">Case 03&nbsp;&nbsp;·&nbsp;&nbsp;Retail / Brand</div>
+    <div class="eyebrow">Case 03&nbsp;&nbsp;·&nbsp;&nbsp;Retail / Brand Environments</div>
     <h2 class="ptitle">Swarovski</h2>
     <div class="psub">Casework Resurfacing — Five Locations</div>
     <div class="carousel" style="aspect-ratio:0.749">
@@ -153,18 +150,19 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>Across five Swarovski store locations</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$600,000<span class="spct">63% less</span></div>
+      <div class="samount">$600,000<span class="spct">63% lower cost</span></div>
+      <div class="ssub">white-to-pink rebrand  ·  stores stayed open</div>
     </div>
-    <p class="story">Casework across five Swarovski stores was resurfaced from white to pink for a brand-recognition campaign — installed overnight with the stores fully functioning.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$350,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">Overnight (~2 wks)</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$950,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~7–8 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Store closures</span></div></div>
@@ -173,7 +171,7 @@
   <section class="panel">
     <div class="eyebrow">Case 04&nbsp;&nbsp;·&nbsp;&nbsp;Corporate / Commercial</div>
     <h2 class="ptitle">DHL HQ</h2>
-    <div class="psub">Lobbies, Panels, Columns &amp; Elevators</div>
+    <div class="psub">Corporate HQ · Lobbies, Panels, Columns &amp; Elevators</div>
     <div class="carousel" style="aspect-ratio:0.750">
       <div class="track">
         <div class="cslide">
@@ -183,18 +181,19 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>Headquarters — lobbies, panels, columns &amp; elevators</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$190,000<span class="spct">60% less</span></div>
+      <div class="samount">$190,000<span class="spct">~60% lower cost</span></div>
+      <div class="ssub">no operational downtime</div>
     </div>
-    <p class="story">The main lobbies at DHL’s South Florida headquarters — walls, panels, columns, and interior elevators — were modernized in place with no downtime.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$130,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$320,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~6–7 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Months of work</span></div></div>
@@ -216,15 +215,16 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        <div class="cslide"><img class="full" src="img/p05_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="dots"><span class="dot active"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>Corporate office — elevator &amp; lobby</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$118,000<span class="spct">70% less</span></div>
+      <div class="samount">$118,000<span class="spct">~70% lower cost</span></div>
+      <div class="ssub">no operational disruption</div>
     </div>
-    <p class="story">A corporate elevator and lobby upgrade delivering a high-end material finish across the office — without disrupting a single workday.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$57,300</span></div><div class="row"><span class="k">Timeline</span><span class="v">2-day install</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$175,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">8–10 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">10–15 days</span></div></div>
@@ -246,15 +246,16 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        <div class="cslide"><img class="full" src="img/p06_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p06_x2.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p06_x3.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>1,400 guest-room doors — entire property</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$1.4M<span class="spct">56% less</span></div>
+      <div class="samount">$1.4M<span class="spct">56% lower cost</span></div>
+      <div class="ssub">$1,000 saved per door across 1,400 doors</div>
     </div>
-    <p class="story">A full-property guest-room door refresh executed inside a larger renovation — holding the resort’s brand standard at a fraction of replacement cost, with no rooms taken offline.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">1,400 doors</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$1,800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">Full replacement</span></div><div class="row"><span class="k">Downtime</span><span class="v">Days per unit</span></div></div>
@@ -273,18 +274,19 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>Exterior columns — Fort Lauderdale</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$85,000<span class="spct">63% less</span></div>
+      <div class="samount">$85,000<span class="spct">63% lower cost</span></div>
+      <div class="ssub">restaurant stayed open</div>
     </div>
-    <p class="story">The exterior columns at Fogo de Chão in Fort Lauderdale were given a sleek, brand-true facelift — with the restaurant open and inviting throughout.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$50,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1 week</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$135,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2–3 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Lost service days</span></div></div>
@@ -303,18 +305,19 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>250 guest-room doors — Florida Keys</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$250,000<span class="spct">56% less</span></div>
+      <div class="samount">$250,000<span class="spct">56% lower cost</span></div>
+      <div class="ssub">one floor at a time  ·  no guest disruption</div>
     </div>
-    <p class="story">250 guest-room doors at Faro Blanco in the Florida Keys were resurfaced one floor at a time — completed with no loud noise and no disruption to guests.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$800 / door</span></div><div class="row"><span class="k">Scope</span><span class="v">250 doors</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$1,800 / door</span></div><div class="row"><span class="k">Timeline</span><span class="v">~4–5 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Floor closures</span></div></div>
@@ -322,7 +325,7 @@
   </section>
   <section class="panel">
     <div class="eyebrow">Case 09&nbsp;&nbsp;·&nbsp;&nbsp;Luxury Residential</div>
-    <h2 class="ptitle">Marc Michaels Residence</h2>
+    <h2 class="ptitle">High-End Residential Home by Marc Michaels Interior Design</h2>
     <div class="psub">Dressing Suite — Jupiter, FL</div>
     <div class="carousel" style="aspect-ratio:0.746">
       <div class="track">
@@ -336,15 +339,16 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        <div class="cslide"><img class="full" src="img/p09_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p09_x2.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p09_x3.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p09_x4.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>Dressing suite only — a private residence in Jupiter, FL</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$48,000<span class="spct">60% less</span></div>
+      <div class="samount">$48,000<span class="spct">~60% lower cost</span></div>
+      <div class="ssub">no construction mess</div>
     </div>
-    <p class="story">A multimillion-dollar residence in Jupiter, FL modernized with premium surface finishes — delivering the design intent with minimal construction, dust, and downtime.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$31,045</span></div><div class="row"><span class="k">Timeline</span><span class="v">1 week</span></div><div class="row"><span class="k">Downtime</span><span class="v">3 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$80,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">6–8 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">5–10 days</span></div></div>
@@ -353,7 +357,7 @@
   <section class="panel">
     <div class="eyebrow">Case 10&nbsp;&nbsp;·&nbsp;&nbsp;Luxury Residential</div>
     <h2 class="ptitle">Casa Bella</h2>
-    <div class="psub">Custom Door &amp; Millwork Resurfacing</div>
+    <div class="psub">Custom Cabinetry &amp; Millwork</div>
     <div class="carousel" style="aspect-ratio:0.750">
       <div class="track">
         <div class="cslide">
@@ -366,15 +370,16 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        <div class="cslide"><img class="full" src="img/p10_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p10_x2.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p10_x3.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>Custom cabinetry &amp; millwork</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$63,000<span class="spct">60% less</span></div>
+      <div class="samount">$63,000<span class="spct">~60% lower cost</span></div>
+      <div class="ssub">no construction mess</div>
     </div>
-    <p class="story">A high-end residential surface project delivering the design intent with minimal disruption.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$42,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1.5 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">3 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$105,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">6–8 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">5–10 days</span></div></div>
@@ -396,15 +401,16 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide"><img class="full" src="img/p11_x1.jpg" alt="more" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p11_x2.jpg" alt="more" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p11_x3.jpg" alt="more" loading="lazy" decoding="async"></div>
+        <div class="cslide"><img class="full" src="img/p11_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p11_x2.jpg" alt="project photo" loading="lazy" decoding="async"></div><div class="cslide"><img class="full" src="img/p11_x3.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
     <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>Feature ceilings &amp; millwork — new construction</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$371,273<span class="spct">57% less</span></div>
+      <div class="samount">$371,273<span class="spct">57% lower cost</span></div>
+      <div class="ssub">delivered in a fraction of the time</div>
     </div>
-    <p class="story">A modern aesthetic delivered as part of a larger development — at well under half the cost of traditional materials and finishes.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$278,727</span></div><div class="row"><span class="k">Timeline</span><span class="v">2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A — in build</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$650,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">4–8 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A</span></div></div>
@@ -412,7 +418,7 @@
   </section>
   <section class="panel">
     <div class="eyebrow">Case 13&nbsp;&nbsp;·&nbsp;&nbsp;Elevator Modernization</div>
-    <h2 class="ptitle">NYC Commercial Elevator</h2>
+    <h2 class="ptitle">NYC Commercial Elevator Refresh</h2>
     <div class="psub">Elevator Cab Modernization</div>
     <div class="carousel" style="aspect-ratio:0.747">
       <div class="track">
@@ -423,27 +429,28 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>A single elevator cab</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$29,000<span class="spct">72% less</span></div>
+      <div class="samount">$73,000<span class="spct"></span></div>
+      <div class="ssub">Net avoided downtime  ·  back in service in under two days</div>
     </div>
-    <p class="story">A commercial elevator cab modernized in place — returned to service in days, not the weeks a full renovation would have required.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$11,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">2 days</span></div><div class="row"><span class="k">Downtime</span><span class="v">1.5 days</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$40,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">7–10 days</span></div><div class="row"><span class="k">Downtime</span><span class="v">7–10 days</span></div></div>
     </div>
   </section>
   <section class="panel">
-    <div class="eyebrow">Case 14&nbsp;&nbsp;·&nbsp;&nbsp;Residential</div>
+    <div class="eyebrow">Case 14&nbsp;&nbsp;·&nbsp;&nbsp;Commercial</div>
     <h2 class="ptitle">Washington Project</h2>
-    <div class="psub">Built-In Cabinetry &amp; Fireplace Resurfacing</div>
+    <div class="psub">Lobby &amp; Corridor Modernization</div>
     <div class="carousel" style="aspect-ratio:0.747">
       <div class="track">
         <div class="cslide">
@@ -456,48 +463,19 @@
             <div class="swipehint">more&nbsp;›</div>
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        <div class="cslide"><img class="full" src="img/p14_x1.jpg" alt="project photo" loading="lazy" decoding="async"></div>
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="dots"><span class="dot active"></span><span class="dot"></span></div>
+    <div class="scope"><span class="sk">Project scope</span>Lobby &amp; corridor</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$145,000<span class="spct">60% less</span></div>
+      <div class="samount">$145,000<span class="spct">~60% lower cost</span></div>
+      <div class="ssub">no operational downtime</div>
     </div>
-    <p class="story">A built-in cabinetry and fireplace surround refinished from honey oak to a deep navy — modernized in place, no demolition.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$95,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">0 days</span></div></div>
-      <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$240,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~5–6 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Weeks of work</span></div></div>
-    </div>
-  </section>
-  <section class="panel">
-    <div class="eyebrow">Case 15&nbsp;&nbsp;·&nbsp;&nbsp;Private Aviation</div>
-    <h2 class="ptitle">Jet Project</h2>
-    <div class="psub">Cabin Surface Resurfacing</div>
-    <div class="carousel" style="aspect-ratio:0.746">
-      <div class="track">
-        <div class="cslide">
-          <div class="frame">
-            <img class="base" src="img/p15_before.jpg" alt="before" loading="lazy" decoding="async">
-            <img class="after-img" src="img/p15_after.jpg" alt="after" loading="lazy" decoding="async">
-            <span class="tag before">Before</span>
-            <span class="tag after">After</span>
-            <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
-          </div>
-        </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
-      </div>
-    </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
-    <div class="savings">
-      <div class="slabel">Total Saved</div>
-      <div class="samount">$135,000<span class="spct">61% less</span></div>
-    </div>
-    <p class="story">Private aircraft cabin surfaces resurfaced to a premium custom finish — a high-end look at a fraction of refit cost and time.</p>
-    <div class="compare">
-      <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$85,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">Minimal</span></div></div>
-      <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$220,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">10–12 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">Extended grounding</span></div></div>
+      <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$240,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~5–6 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">Months of work</span></div></div>
     </div>
   </section>
   <section class="panel">
@@ -513,18 +491,19 @@
             <span class="tag before">Before</span>
             <span class="tag after">After</span>
             <div class="bar"><div class="line"></div><div class="handle"></div></div>
-            <div class="swipehint">more&nbsp;›</div>
+            
           </div>
         </div>
-        <div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div><div class="cslide ph"><div class="phbox"><div class="phicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/></svg></div><div class="pht">More project photos</div><div class="phs">Coming soon</div></div></div>
+        
       </div>
     </div>
-    <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    
+    <div class="scope"><span class="sk">Project scope</span>Clubhouse ceilings — Naples, FL</div>
     <div class="savings">
       <div class="slabel">Total Saved</div>
-      <div class="samount">$80,000<span class="spct">62% less</span></div>
+      <div class="samount">$80,000<span class="spct">62% lower cost</span></div>
+      <div class="ssub">delivered on the construction schedule</div>
     </div>
-    <p class="story">Clubhouse ceilings in a new-construction community in Naples, FL finished with a sleek, modern look — delivered on the construction deadline.</p>
     <div class="compare">
       <div class="col sol"><div class="ch">Casamonte solution</div><div class="row"><span class="k">Cost</span><span class="v">$50,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1–2 weeks</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A — in build</span></div></div>
       <div class="col trad"><div class="ch">Traditional alternative</div><div class="row"><span class="k">Cost</span><span class="v">~$130,000</span></div><div class="row"><span class="k">Timeline</span><span class="v">~1–2 months</span></div><div class="row"><span class="k">Downtime</span><span class="v">N/A</span></div></div>
@@ -540,7 +519,7 @@
 <script>
   document.querySelectorAll('.carousel').forEach(function(car){
     var track = car.querySelector('.track');
-    var dotsWrap = car.nextElementSibling;
+    var dotsWrap = car.nextElementSibling && car.nextElementSibling.classList.contains('dots') ? car.nextElementSibling : null;
     var dots = dotsWrap ? dotsWrap.querySelectorAll('.dot') : [];
     var hint = car.querySelector('.swipehint');
     if(dots.length){
@@ -560,7 +539,7 @@
       var x = clientX - r.left;
       if(x < 0) x = 0; if(x > r.width) x = r.width;
       var pct = (x / r.width) * 100;
-      afterImg.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      afterImg.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
       bar.style.left = pct + '%';
     }
     function onDown(e){
